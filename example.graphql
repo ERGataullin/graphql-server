@@ -1,0 +1,32 @@
+{
+  # Top 20 movies of 1954
+  movies(
+    limit: 20
+    release_date: {from: "1954-01-01", to: "1954-12-31"}
+    order_by: vote_average
+  ) {
+    id
+    title
+    vote_average
+  }
+  
+  # A movie with id equal to 43597
+  movie(id: 43597) {
+    id
+    original_title
+    title
+    director_id
+  }
+  
+  # A first page of a directors list limited to 1 per page
+  directors(page: 1, limit: 1) {
+    id
+    name
+  }
+  
+  # A director with id equal to 4762
+  director(id: 4762) {
+    id
+    name
+  }
+}
