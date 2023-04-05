@@ -12,6 +12,7 @@ abstract class MovieRepository {
     int? limit,
     DateRange? releaseDate,
     String? orderBy,
+    int? director,
   });
 
   FutureOr<Movie> getMovie(int id);
@@ -34,6 +35,7 @@ class SqliteMovieRepository implements MovieRepository {
     int? limit,
     DateRange? releaseDate,
     String? orderBy,
+    int? director,
   }) {
     assert(page == null || limit != null);
     final String query = [
@@ -43,6 +45,7 @@ class SqliteMovieRepository implements MovieRepository {
         [
           if (releaseDate.from != null) 'release_date >= ?',
           if (releaseDate.to != null) 'release_date <= ?',
+          if (director != null) 'director_id = ?'
         ].join(' AND '),
       ],
       if (orderBy != null) 'ORDER BY $orderBy DESC',
@@ -53,6 +56,7 @@ class SqliteMovieRepository implements MovieRepository {
     final List<Object?> arguments = [
       if (releaseDate?.from != null) releaseDate!.from!.toIso8601String(),
       if (releaseDate?.to != null) releaseDate!.to!.toIso8601String(),
+      if (director != null) director,
     ];
 
     return _database.select(query, arguments).map((row) => Movie.fromJson(row));
