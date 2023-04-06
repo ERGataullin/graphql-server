@@ -49,6 +49,10 @@ class MovieService extends Service<int, Movie> {
                   .toList(growable: false),
             ),
           ),
+          GraphQLFieldInput(
+            'director_id',
+            graphQLPositiveInt,
+          ),
         ],
         resolve: (_, arguments) => _repository.getMovies(
           page: arguments[common.pageInput.name],
@@ -60,6 +64,7 @@ class MovieService extends Service<int, Movie> {
                 )
               : null,
           orderBy: arguments['order_by'],
+          director: arguments['director_id'],
         ),
       );
 
